@@ -1,6 +1,12 @@
 (function () {
 'use strict';
 
+/*
+License: Boost Software License 1.0
+See http://www.boost.org/LICENSE_1_0.txt
+Copyright © 2018 yumetodo <yume-wikijp@live.jp>
+*/
+
 const ore_list = Object.freeze(['Iron Ore', 'Gold Ore', 'Coal Ore', 'Lapis Lazuli Ore', 'Redstone Ore', 'Emerald Ore']);
 const default_pure_extra_dia_factor = 1.98;
 const default_extra_dia_factor_by_other_ores = Object.freeze({
