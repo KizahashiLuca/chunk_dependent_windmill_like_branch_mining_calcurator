@@ -20,6 +20,14 @@ const default_extra_dia_factor_by_other_ores = Object.freeze({
 const fortune_factors = Object.freeze([1, 1.25, 1.75, 2.20]);
 const fortune_factors_text = Object.freeze(['なし', '幸運Ⅰ', '幸運Ⅱ', '幸運Ⅲ']);
 const calc_mode_list = Object.freeze(["n週目まで", "n週目のみ"]);
+const translate_ja = Object.freeze({
+    'Iron Ore': '鉄鉱石',
+    'Gold Ore': '金鉱石',
+    'Coal Ore': '石炭鉱石',
+    'Lapis Lazuli Ore': 'ラピスラズリ鉱石',
+    'Redstone Ore': 'レッドストーン鉱石',
+    'Emerald Ore': 'エメラルド鉱石'
+});
 
 /**
  * n週目までに採掘されたチャンク数を求める
@@ -224,7 +232,7 @@ class Calculator {
                                 }),
                                 'checked': this.other_ores_effect.get(ore).enabled
                             }))),
-                            m('td', ore),
+                            m('td', translate_ja[ore]),
                             m('td', m('input[type="text"]', {
                                 'oninput': m.withAttr('value', correction_value => {
                                     if(this.other_ores_effect.get(ore).effect_factor !== correction_value){
