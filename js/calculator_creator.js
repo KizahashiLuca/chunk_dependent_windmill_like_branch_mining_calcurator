@@ -262,7 +262,7 @@ const main = () => {
 }
 
 if (document.readyState !== 'loading') {
-    m.mount(document.getElementById('calc_main'), main);
+    main();
 } else {
     document.addEventListener('DOMContentLoaded', main);
 }
