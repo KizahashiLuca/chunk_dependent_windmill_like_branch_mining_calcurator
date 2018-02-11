@@ -11,14 +11,44 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mithril/1.1.6/mithril.min.js" integrity="sha384-WedpdoUbnuqy+dSCxrl0TWUm/4GG4J8s4EixXQb1KVETo46oAzTN5jagrXH3hRQD" crossorigin="anonymous"></script>
   <script src="js/calculator_creator.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      renderMathInElement(document.getElementById("intro"), {
-        "delimiters": [
-          { "left": "[[", "right": "]]", "display": true  },
-          { "left": "$",  "right": "$",  "display": false }
-        ]
-      });
-    });
+    (function () {
+      const auto_katex_render = () => {
+        renderMathInElement(document.getElementById('intro'), {
+          'delimiters': [
+            { 'left': '[[', 'right': ']]', 'display': true  },
+            { 'left': '$',  'right': '$',  'display': false }
+          ]
+        });
+      };
+
+      class IntroManager {
+        constructor(){
+          this.intro_body = document.getElementById('intro_body');
+          this.render_description = false;
+        }
+        view(){
+          return m(
+            'button',
+            {'onclick': ()=> {
+              this.render_description = !this.render_description;
+              intro_body.style.display = this.render_description ? 'block' : 'none';
+            }},
+            this.render_description ? '隠す' : '続きを読む'
+          );
+        }
+      }
+      const main = () => {
+        auto_katex_render();
+        const intro_body = document.getElementById('intro_body');
+        m.mount(document.getElementById('intro_body_button'), IntroManager);
+    }
+
+    if (document.readyState !== 'loading') {
+        main();
+    } else {
+        document.addEventListener('DOMContentLoaded', main);
+    }
+    })();
   </script>
 </head>
 <body>
@@ -28,64 +58,69 @@
   </header>
   <section id="intro" class="intro">
     <h2>チャンク依拠風車型ブランチマイニングとは</h2>
-    <p>
-      Minecraftでは鉱石収集にブランチマイニングと言われる、採掘坑道を掘って鉱石を集める方法が存在する。<br>
-      チャンク依拠風車型ブランチマイニングとは、きざはしるかというニコニコ動画の実況者が提案したブランチマイニングの手法である。<br>
-      詳細はニコニコ動画に上がっている動画に譲る。
-    </p>
-    <script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm31306281/script?w=640&h=360"></script>
-    <noscript>
-      <a href="http://www.nicovideo.jp/watch/sm31306281">【Minecraft】チャンク依拠風車型ブランチマイニングの提案</a>
-    </noscript>
-    <p>その数式がこれである。</p>
-    <p>[[ S_{\text{chunk}}(n)=\Bigl( \frac{2n+2}{4} \Bigr)^2 ]]</p>
-    <p>[[D_{\text{ore}}(n)=\Bigl( \frac{16 \cdot 4 \cdot 8}{16 \cdot 16 \cdot 12} \Bigr) \times d \times c \times S_{\text{chunk}}(n)]]</p>
-    <p>[[D_{\text{get}}(n)=l \times D_{\text{ore}}(n)]]</p>
-    <table>
-      <tr><th>$n$</th><td>風車の周回数</td></tr>
-      <tr><th>$d$</th><td>1チャンクあたりのダイヤ鉱石存在量</td></tr>
-      <tr><th>$c$</th><td>洞窟やほか鉱石採掘中に見つかるダイヤのための補正係数</td></tr>
-      <tr><th>$l$</th><td>幸運エンチャントを考慮したダイヤ鉱石1個あたりのダイヤ取得数係数</td></tr>
-      <tr><th>$S_{\text{chunk}}(n)$</th><td>n周目まで採掘終了時の採掘チャンク数</td></tr>
-      <tr><th>$D_{\text{ore}}(n)$</th><td>n周目まで採掘終了時の取得ダイヤ鉱石数</td></tr>
-      <tr><th>$D_{\text{get}}(n)$</th><td>n周目まで採掘終了時の取得ダイヤ数</td></tr>
-    </table>
-    <p>でいりぃというニコニコ動画の実況者が計算式の経験に基づくパラメータ<code>c</code>及び	1チャンクあたりのダイヤ鉱石存在量<code>d</code>に修正を加えた。</p>
-    <p>それによれば、$d \simeq 3.67$、$c \simeq 1.98$である。</p>
-    <p>
-      この時、$c$はダイヤ鉱石以外のどの鉱石を掘っているかで<code>1.98</code>に補正が必要で、その補正値は次のとおりである。<br>
-      複数の項目に当てはまる場合は単純な加算でよい。
-    </p>
-    <table>
-      <tr><th>鉄鉱石</th><td>+0.08</td></tr>
-      <tr><th>金鉱石</th><td>+0.01</td></tr>
-      <tr><th>石炭鉱石</th><td>+0.09</td></tr>
-      <tr><th>ラピスラズリ鉱石</th><td>+0.01</td></tr>
-      <tr><th>レッドストーン鉱石</th><td>+0.09</td></tr>
-      <tr><th>エメラルド鉱石</th><td>0</td></tr>
-    </table>
-    <p>また、幸運エンチャントの寄与を示す係数$l$は下記のとおりである。</p>
-    <table>
-      <tr><th>なし</th><td>1</td></tr>
-      <tr><th>幸運1</th><td>1.33</td></tr>
-      <tr><th>幸運2</th><td>1.75</td></tr>
-      <tr><th>幸運3</th><td>2.20</td></tr>
-    </table>
-    <p>ここで$n$週目のみでのダイヤモンド取得数を考えることにする。まず採掘チャンク数は</p>
-    <p>[[\begin{array}{rl}
-        S_{\text{nth chunk}}(n) &=& S_{\text{chunk}}(n) - S_{\text{chunk}}(n - 1) \cr\cr
-        &=& \Bigl( \frac{2n+2}{4} \Bigr)^2 - \Bigl( \frac{2(n - 1)+2}{4} \Bigr)^2 \cr\cr
-        &=& \frac{1}{16} \bigl\{(4n^2 + 8n + 4) - (4n^2)\bigr\} \cr\cr
-        &=& \frac{1}{16} (8n+4) \cr\cr
-        &=& \frac{2n+1}{4}
-      \end{array}]]
-    </p>
-    <p>のように計算できるので、まとめると</p>
-    <p>[[S_{\text{nth chunk}}(n)=\frac{2n+1}{4}]]</p>
-    <p>$D_{\text{ore}}(n)$も$D_{\text{get}}(n)$も採掘チャンク数に依存しているので、単にこの$S_{\text{nth chunk}}(n)$を使えば良い。</p>
+    <div id="intro_body_button"></div>
+    <article id="intro_body" style="display: none;">
+      <p>
+        Minecraftでは鉱石収集にブランチマイニングと言われる、採掘坑道を掘って鉱石を集める方法が存在する。<br>
+        チャンク依拠風車型ブランチマイニングとは、きざはしるかというニコニコ動画の実況者が提案したブランチマイニングの手法である。<br>
+        詳細はニコニコ動画に上がっている動画に譲る。
+      </p>
+      <script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm31306281/script?w=640&h=360"></script>
+      <noscript>
+        <a href="http://www.nicovideo.jp/watch/sm31306281">【Minecraft】チャンク依拠風車型ブランチマイニングの提案</a>
+      </noscript>
+      <p>その数式がこれである。</p>
+      <p>[[ S_{\text{chunk}}(n)=\Bigl( \frac{2n+2}{4} \Bigr)^2 ]]</p>
+      <p>[[D_{\text{ore}}(n)=\Bigl( \frac{16 \cdot 4 \cdot 8}{16 \cdot 16 \cdot 12} \Bigr) \times d \times c \times S_{\text{chunk}}(n)]]</p>
+      <p>[[D_{\text{get}}(n)=l \times D_{\text{ore}}(n)]]</p>
+      <table>
+        <tr><th>$n$</th><td>風車の周回数</td></tr>
+        <tr><th>$d$</th><td>1チャンクあたりのダイヤ鉱石存在量</td></tr>
+        <tr><th>$c$</th><td>洞窟やほか鉱石採掘中に見つかるダイヤのための補正係数</td></tr>
+        <tr><th>$l$</th><td>幸運エンチャントを考慮したダイヤ鉱石1個あたりのダイヤ取得数係数</td></tr>
+        <tr><th>$S_{\text{chunk}}(n)$</th><td>n周目まで採掘終了時の採掘チャンク数</td></tr>
+        <tr><th>$D_{\text{ore}}(n)$</th><td>n周目まで採掘終了時の取得ダイヤ鉱石数</td></tr>
+        <tr><th>$D_{\text{get}}(n)$</th><td>n周目まで採掘終了時の取得ダイヤ数</td></tr>
+      </table>
+      <p>でいりぃというニコニコ動画の実況者が計算式の経験に基づくパラメータ<code>c</code>及び	1チャンクあたりのダイヤ鉱石存在量<code>d</code>に修正を加えた。</p>
+      <script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm32719893/script?w=640&h=360"></script>
+      <noscript>
+        <a href="http://www.nicovideo.jp/watch/sm32719893">【Minecraft】チャンク依拠風車型ブランチマイニングの期待値補正</a>
+      </noscript>
+      <p>それによれば、$d \simeq 3.67$、$c \simeq 1.98$である。</p>
+      <p>
+        この時、$c$はダイヤ鉱石以外のどの鉱石を掘っているかで<code>1.98</code>に補正が必要で、その補正値は次のとおりである。<br>
+        複数の項目に当てはまる場合は単純な加算でよい。
+      </p>
+      <table>
+        <tr><th>鉄鉱石</th><td>+0.08</td></tr>
+        <tr><th>金鉱石</th><td>+0.01</td></tr>
+        <tr><th>石炭鉱石</th><td>+0.09</td></tr>
+        <tr><th>ラピスラズリ鉱石</th><td>+0.01</td></tr>
+        <tr><th>レッドストーン鉱石</th><td>+0.09</td></tr>
+        <tr><th>エメラルド鉱石</th><td>0</td></tr>
+      </table>
+      <p>また、幸運エンチャントの寄与を示す係数$l$は下記のとおりである。</p>
+      <table>
+        <tr><th>なし</th><td>1</td></tr>
+        <tr><th>幸運1</th><td>1.33</td></tr>
+        <tr><th>幸運2</th><td>1.75</td></tr>
+        <tr><th>幸運3</th><td>2.20</td></tr>
+      </table>
+      <p>ここで$n$週目のみでのダイヤモンド取得数を考えることにする。まず採掘チャンク数は</p>
+      <p>[[\begin{array}{rl}
+          S_{\text{nth chunk}}(n) &=& S_{\text{chunk}}(n) - S_{\text{chunk}}(n - 1) \cr\cr
+          &=& \Bigl( \frac{2n+2}{4} \Bigr)^2 - \Bigl( \frac{2(n - 1)+2}{4} \Bigr)^2 \cr\cr
+          &=& \frac{1}{16} \bigl\{(4n^2 + 8n + 4) - (4n^2)\bigr\} \cr\cr
+          &=& \frac{1}{16} (8n+4) \cr\cr
+          &=& \frac{2n+1}{4}
+        \end{array}]]
+      </p>
+      <p>のように計算できるので、まとめると</p>
+      <p>[[S_{\text{nth chunk}}(n)=\frac{2n+1}{4}]]</p>
+      <p>$D_{\text{ore}}(n)$も$D_{\text{get}}(n)$も採掘チャンク数に依存しているので、単にこの$S_{\text{nth chunk}}(n)$を使えば良い。</p>
+    </article>
   </section>
-  
-  <!-- 本題 -->
   <section id="calc" class="calc">
     <h2>チャンク依拠風車型ブランチマイニングの計算</h2>
     <div id="calc_main"></div>
