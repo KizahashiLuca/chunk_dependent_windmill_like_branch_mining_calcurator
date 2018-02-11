@@ -8,6 +8,7 @@
   <title>チャンク依拠風車型ブランチマイニングの計算</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js" integrity="sha384-L9gv4ooDLrYwW0QCM6zY3EKSSPrsuUncpx26+erN0pJX4wv1B1FzVW1SvpcJPx/8" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/contrib/auto-render.min.js" integrity="sha384-RkgGHBDdR8eyBOoWeZ/vpGg1cOvSAJRflCUDACusAAIVwkwPrOUYykglPeqWakZu" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mithril/1.1.6/mithril.min.js" integrity="sha384-WedpdoUbnuqy+dSCxrl0TWUm/4GG4J8s4EixXQb1KVETo46oAzTN5jagrXH3hRQD" crossorigin="anonymous"></script>
   <script src="js/calculator_creator.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -87,34 +88,7 @@
   <!-- 本題 -->
   <section id="calc" class="calc">
     <h2>チャンク依拠風車型ブランチマイニングの計算</h2>
-    <form name="wm" onsubmit="return false;">
-      <p>
-        風車型 <br>
-        <input type="number" name="n1" min="1" max="500" step="1" required>周
-      </p>
-      <p>
-        Spawn Frequency: 0-40 (default 1)<br>
-        1チャンクに含まれるダイヤモンドの鉱脈数 (デフォルトは１)<br>
-        <input type="number" name="d1" min="0" max="40" step="1" value="1" required>鉱脈<br>
-      </p>
-      <p>
-        洞窟係数 (経験則 今のところ2.5)<br>
-        <input type="number" name="c1" min="0" value="2.5" step="0.1"><br>
-      </p>
-      <p>
-        ピッケルのエンチャント <br>
-        <label><input type="radio" name="ench1" value="1" checked>なし</label>
-        <label><input type="radio" name="ench1" value="1.33">幸運Ⅰ</label>
-        <label><input type="radio" name="ench1" value="1.75">幸運Ⅱ</label>
-        <label><input type="radio" name="ench1" value="2.20">幸運Ⅲ</label>
-      </p>
-      <input type="submit" id="calc1" value="計算" onclick="calc_windmill(n1,d1,c1,ench1)">
-      <input type="reset" value="リセット">
-      <p>
-      ダイヤ鉱石期待値 <output id="ore_result"></output> 個<br>
-      ダイヤモンド期待値 <output id="result"></output> 個
-      </p>
-    </form>
+    <div id="calc_main"></div>
   </section>
 </div>
 </body>
