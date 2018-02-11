@@ -1,123 +1,121 @@
 ﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="description" content="Minecraftの諸々を計算する">
-<meta name="author" content="KizahashiLuca">
-<meta name="keywords" content="Minecraft, マインクラフト, マイクラ">
-<meta name="viewport" content="width=device-width, initial-scale=1 minimal-ui">
-<link rel="stylesheet" href="css/style.css">
-<link rel="shortcut icon" href="imgs/icon.ico" type="image/x-icon">
-<title>マイクラ諸々計算Webサービス</title>
-<!--<script src="./js/code.js" type="text/javascript" charset="utf-8"></script>-->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1 minimal-ui">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.css">
+  <title>チャンク依拠風車型ブランチマイニングの計算</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/katex.min.js" integrity="sha384-L9gv4ooDLrYwW0QCM6zY3EKSSPrsuUncpx26+erN0pJX4wv1B1FzVW1SvpcJPx/8" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.8.3/contrib/auto-render.min.js" integrity="sha384-RkgGHBDdR8eyBOoWeZ/vpGg1cOvSAJRflCUDACusAAIVwkwPrOUYykglPeqWakZu" crossorigin="anonymous"></script>
+  <script src="js/calculator_creator.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderMathInElement(document.getElementById("intro"), {
+        "delimiters": [
+          { "left": "[[", "right": "]]", "display": true  },
+          { "left": "$",  "right": "$",  "display": false }
+        ]
+      });
+    });
+  </script>
 </head>
-
-<script type="text/javascript">
-  function Calc_windmill(n, d, c, ench){
-    wm.ore_result.value = Math.pow(((n.value * 2 + 2)/4),2) * d.value * 3.097 * c.value / 6;
-    wm.result.value = wm.ore_result.value * ench.value;
-  }
-  
-  function Calc_windmill_per(n, d, c, ench){
-    wmp.ore_result2.value = (2 * n.value + 1) / 4 * d.value * 3.097 * c.value / 6;
-    wmp.result2.value = wmp.ore_result2.value * ench.value;
-  }
-</script>
-
 <body>
 <div class="container" style="padding:10px 0">
-  <div class="container">
-    <div class="heading">
-      <h1>MC-tools</h1>
-    </div>
-    
-    <!-- 概要 -->
-    <div class="intro">
-    <h2>概要</h2>
-    <p>マイクラで使用する諸計算のWebサービスです</p>
-    <p>Let's play Minecraft competitively!</p>
-    </div>
-    
-    <!-- 本題 -->
-    <div class="calc">
+  <header>
+    <h1>チャンク依拠風車型ブランチマイニングの計算</h1>
+  </header>
+  <section id="intro" class="intro">
+    <h2>チャンク依拠風車型ブランチマイニングとは</h2>
+    <p>
+      Minecraftでは鉱石収集にブランチマイニングと言われる、採掘坑道を掘って鉱石を集める方法が存在する。<br>
+      チャンク依拠風車型ブランチマイニングとは、きざはしるかというニコニコ動画の実況者が提案したブランチマイニングの手法である。<br>
+      詳細はニコニコ動画に上がっている動画に譲る。
+    </p>
+    <script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm31306281/script?w=640&h=360"></script>
+    <noscript>
+      <a href="http://www.nicovideo.jp/watch/sm31306281">【Minecraft】チャンク依拠風車型ブランチマイニングの提案</a>
+    </noscript>
+    <p>その数式がこれである。</p>
+    <p>[[ S_{\text{chunk}}(n)=\Bigl( \frac{2n+2}{4} \Bigr)^2 ]]</p>
+    <p>[[D_{\text{ore}}(n)=\Bigl( \frac{16 \cdot 4 \cdot 8}{16 \cdot 16 \cdot 12} \Bigr) \times d \times c \times S_{\text{chunk}}(n)]]</p>
+    <p>[[D_{\text{get}}(n)=l \times D_{\text{ore}}(n)]]</p>
+    <table>
+      <tr><th>$n$</th><td>風車の周回数</td></tr>
+      <tr><th>$d$</th><td>1チャンクあたりのダイヤ鉱石存在量</td></tr>
+      <tr><th>$c$</th><td>洞窟やほか鉱石採掘中に見つかるダイヤのための補正係数</td></tr>
+      <tr><th>$l$</th><td>幸運エンチャントを考慮したダイヤ鉱石1個あたりのダイヤ取得数係数</td></tr>
+      <tr><th>$S_{\text{chunk}}(n)$</th><td>n周目まで採掘終了時の採掘チャンク数</td></tr>
+      <tr><th>$D_{\text{ore}}(n)$</th><td>n周目まで採掘終了時の取得ダイヤ鉱石数</td></tr>
+      <tr><th>$D_{\text{get}}(n)$</th><td>n周目まで採掘終了時の取得ダイヤ数</td></tr>
+    </table>
+    <p>でいりぃというニコニコ動画の実況者が計算式の経験に基づくパラメータ<code>c</code>及び	1チャンクあたりのダイヤ鉱石存在量<code>d</code>に修正を加えた。</p>
+    <p>それによれば、$d \simeq 3.67$、$c \simeq 1.98$である。</p>
+    <p>
+      この時、$c$はダイヤ鉱石以外のどの鉱石を掘っているかで<code>1.98</code>に補正が必要で、その補正値は次のとおりである。<br>
+      複数の項目に当てはまる場合は単純な加算でよい。
+    </p>
+    <table>
+      <tr><th>鉄鉱石</th><td>+0.08</td></tr>
+      <tr><th>金鉱石</th><td>+0.01</td></tr>
+      <tr><th>石炭鉱石</th><td>+0.09</td></tr>
+      <tr><th>ラピスラズリ鉱石</th><td>+0.01</td></tr>
+      <tr><th>レッドストーン鉱石</th><td>+0.09</td></tr>
+      <tr><th>エメラルド鉱石</th><td>0</td></tr>
+    </table>
+    <p>また、幸運エンチャントの寄与を示す係数$l$は下記のとおりである。</p>
+    <table>
+      <tr><th>なし</th><td>1</td></tr>
+      <tr><th>幸運1</th><td>1.33</td></tr>
+      <tr><th>幸運2</th><td>1.75</td></tr>
+      <tr><th>幸運3</th><td>2.20</td></tr>
+    </table>
+    <p>ここで$n$週目のみでのダイヤモンド取得数を考えることにする。まず採掘チャンク数は</p>
+    <p>[[\begin{array}{rl}
+        S_{\text{nth chunk}}(n) &=& S_{\text{chunk}}(n) - S_{\text{chunk}}(n - 1) \cr\cr
+        &=& \Bigl( \frac{2n+2}{4} \Bigr)^2 - \Bigl( \frac{2(n - 1)+2}{4} \Bigr)^2 \cr\cr
+        &=& \frac{1}{16} \bigl\{(4n^2 + 8n + 4) - (4n^2)\bigr\} \cr\cr
+        &=& \frac{1}{16} (8n+4) \cr\cr
+        &=& \frac{2n+1}{4}
+      \end{array}]]
+    </p>
+    <p>のように計算できるので、まとめると</p>
+    <p>[[S_{\text{nth chunk}}(n)=\frac{2n+1}{4}]]</p>
+    <p>$D_{\text{ore}}(n)$も$D_{\text{get}}(n)$も採掘チャンク数に依存しているので、単にこの$S_{\text{nth chunk}}(n)$を使えば良い。</p>
+  </section>
+  
+  <!-- 本題 -->
+  <section id="calc" class="calc">
     <h2>チャンク依拠風車型ブランチマイニングの計算</h2>
-    <!-- 折りたたみタブ -->    
-    <h3><div onclick="obj=document.getElementById('open').style; obj.display=(obj.display=='none')?'block':'none';">
-<a style="cursor:pointer;">▼合計</a>
-	</div></h3>
-	<!--// 折りたたみタブ -->
-
-    <!-- 合計計算フォームとスクリプト -->    
-    <div id="open" style="display:none;clear:both;">
     <form name="wm" onsubmit="return false;">
       <p>
-      風車型 <br>
-      <input type="number" name="n1" min="1" max="500" step="1" required>周 <br>
+        風車型 <br>
+        <input type="number" name="n1" min="1" max="500" step="1" required>周
       </p>
       <p>
-      Spawn Frequency: 0-40 (default 1)<br>
-      1チャンクに含まれるダイヤモンドの鉱脈数 (デフォルトは１)<br>
-      <input type="number" name="d1" min="0" max="40" step="1" value="1" required>鉱脈<br>
+        Spawn Frequency: 0-40 (default 1)<br>
+        1チャンクに含まれるダイヤモンドの鉱脈数 (デフォルトは１)<br>
+        <input type="number" name="d1" min="0" max="40" step="1" value="1" required>鉱脈<br>
       </p>
       <p>
-      洞窟係数 (経験則 今のところ2.5)<br>
-      <input type="number" name="c1" min="0" value="2.5" step="0.1"><br>
+        洞窟係数 (経験則 今のところ2.5)<br>
+        <input type="number" name="c1" min="0" value="2.5" step="0.1"><br>
       </p>
       <p>
-      ピッケルのエンチャント <br>
-      <label><input type="radio" name="ench1" value="1" checked>なし</label>
-      <label><input type="radio" name="ench1" value="1.33">幸運Ⅰ</label>
-      <label><input type="radio" name="ench1" value="1.75">幸運Ⅱ</label>
-      <label><input type="radio" name="ench1" value="2.20">幸運Ⅲ</label>
+        ピッケルのエンチャント <br>
+        <label><input type="radio" name="ench1" value="1" checked>なし</label>
+        <label><input type="radio" name="ench1" value="1.33">幸運Ⅰ</label>
+        <label><input type="radio" name="ench1" value="1.75">幸運Ⅱ</label>
+        <label><input type="radio" name="ench1" value="2.20">幸運Ⅲ</label>
       </p>
-      <input type="submit" id="calc1" value="計算" onclick="Calc_windmill(n1,d1,c1,ench1)">
+      <input type="submit" id="calc1" value="計算" onclick="calc_windmill(n1,d1,c1,ench1)">
       <input type="reset" value="リセット">
       <p>
       ダイヤ鉱石期待値 <output id="ore_result"></output> 個<br>
       ダイヤモンド期待値 <output id="result"></output> 個
       </p>
     </form>
-    </div>
-    
-    <!-- 折りたたみタブ -->    
-    <h3><div onclick="obj=document.getElementById('open2').style; obj.display=(obj.display=='none')?'block':'none';">
-<a style="cursor:pointer;">▼一周</a>
-	</div></h3>
-	<!--// 折りたたみタブ -->
-
-    <!-- 一周計算フォームとスクリプト -->    
-    <div id="open2" style="display:none;clear:both;">
-    <form name="wmp" onsubmit="return false;">
-      <p>
-      風車型 <br>
-      <input type="number" name="n2" min="1" max="500" step="1" required>周 <br>
-      </p>
-      <p>
-      Spawn Frequency: 0-40 (default 1)<br>
-      1チャンクに含まれるダイヤモンドの鉱脈数 (デフォルトは１)<br>
-      <input type="number" name="d2" min="0" max="40" step="1" value="1" required>鉱脈<br>
-      </p>
-      <p>
-      洞窟係数 (経験則 今のところ2.5)<br>
-      <input type="number" name="c2" min="0" value="2.5" step="0.1"><br>
-      </p>
-      <p>
-      ピッケルのエンチャント <br>
-      <label><input type="radio" name="ench2" value="1" checked>なし</label>
-      <label><input type="radio" name="ench2" value="1.33">幸運Ⅰ</label>
-      <label><input type="radio" name="ench2" value="1.75">幸運Ⅱ</label>
-      <label><input type="radio" name="ench2" value="2.20">幸運Ⅲ</label>
-      </p>
-      <input type="submit" id="calc2" value="計算" onclick="Calc_windmill_per(n2,d2,c2,ench2)">
-      <input type="reset" value="リセット">
-      <p>
-      ダイヤ鉱石期待値 <output id="ore_result2"></output> 個<br>
-      ダイヤモンド期待値 <output id="result2"></output> 個
-      </p>
-    </form>
-    </div>
-    </div>
-  </div>
+  </section>
 </div>
 </body>
 </html>
