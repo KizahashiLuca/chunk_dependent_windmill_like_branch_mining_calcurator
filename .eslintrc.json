@@ -1,0 +1,26 @@
+{
+    "env": {"browser": true},
+    "extends": "closure-es5",
+    "globals": {"m": false},
+    "parserOptions": {"ecmaVersion": 2017},
+    "rules": {
+      "linebreak-style": "off",
+      "quotes": ["error", "single"],
+      "max-len": ["error", { "code": 120 }],
+      "space-unary-ops":[
+        1, {
+          "overrides": {
+            "typeof": false
+          }
+        }
+      ],
+      "operator-linebreak": [
+        "error", "after", {
+          "overrides": { "?": "before", ":": "before" }
+        }
+      ],
+      "quote-props": ["error", "always"],
+      "closure/indent": ["error", 4],
+      "closure/camelcase": "off"
+    }
+  }

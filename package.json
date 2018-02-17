@@ -1,0 +1,25 @@
+{
+  "name": "chunk_dependent_windmill_like_branch_mining_calcurator",
+  "version": "1.0.0",
+  "description": "チャンク依拠風車型ブランチマイニングの計算機",
+  "devDependencies": {
+    "eslint": "^4.18.0",
+    "eslint-config-closure-es5": "0.0.1",
+    "eslint-config-closure-es6": "0.0.1",
+    "eslint-plugin-closure": "0.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint js/calculator_creator.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KizahashiLuca/chunk_dependent_windmill_like_branch_mining_calcurator.git"
+  },
+  "author": "KizahashiLuca,yumetodo",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/KizahashiLuca/chunk_dependent_windmill_like_branch_mining_calcurator/issues"
+  },
+  "homepage": "https://github.com/KizahashiLuca/chunk_dependent_windmill_like_branch_mining_calcurator#readme"
+}
