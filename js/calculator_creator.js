@@ -248,8 +248,7 @@
                     if (isNaN(v)) return;
                     /** @type {number} */
                     const n = to_number_func(v);
-                    if (Number.isNaN(n)) return;
-                    if (!chcker(n)) return;
+                    if (Number.isNaN(n) || !chcker(n)) return;
                     on_success(n);
                 };
             };
