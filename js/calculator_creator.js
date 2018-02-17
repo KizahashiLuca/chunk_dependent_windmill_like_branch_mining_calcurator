@@ -61,8 +61,18 @@
      */
     const calc_dia_num = (dia_ore_n, fortune_factor) => dia_ore_n * fortune_factor;
 
+    /**
+     * 文字列を整数に変換する。ただし数値が入ってきたら単にそれを返す。
+     * @param {any} v value
+     * @return {number} NaN とか Finiteかもしれない
+     */
     const make_int_number = v => typeof(v) === "number" ? v : parseInt(v);
 
+    /**
+     * 文字列を整数に変換する。ただし数値が入ってきたら単にそれを返す。
+     * @param {any} v value
+     * @return {number} NaN とか Finiteかもしれない
+     */
     const make_float_number = v => typeof(v) === "number" ? v : parseFloat(v);
 
     class Data {
@@ -182,6 +192,7 @@
         return ores_effect_sum;
     };
 
+
     class Calculator {
         constructor(/* vnode */) {
             this.data = new Data();
@@ -197,6 +208,51 @@
             this.data.set_extra_dia_factor(this.pure_extra_dia_factor + calc_ores_effect_sum(this.other_ores_effect));
         }
         view() {
+            /**
+             * number_validiaterに使うcheck関数型
+             * @callback to_number_function
+             * @param {any} value
+             * @return {number}
+             */
+            /**
+             * number_validiaterに使うcheck関数型
+             * @callback number_validiater_check_function
+             * @param {any} value
+             * @return {boolean}
+             */
+            /**
+             * number_validiaterで成功時に実行する関数型
+             * @callback number_validiater_on_success_function
+             * @param {any} value
+             * @return {boolean}
+             */
+            /**
+             * number_validiaterで成功時に実行する関数型
+             * @callback number_validiater
+             * @param {Event} e event
+             */
+
+            /**
+             * number型を検証するvalidiaterを作る
+             * @param {string} attr_name
+             * @param {to_number_function} to_number_func numberに変換する関数
+             * @param {number_validiater_check_function} chcker check関数
+             * @param {number_validiater_on_success_function} on_success checkがtrueを返した時に実行する関数
+             * @return {number_validiater}
+             */
+            const make_number_validiater = (attr_name, to_number_func, chcker, on_success) => {
+                return (e) => {
+                    const v = (attr_name in e.currentTarget)
+                        ? e.currentTarget[attr_name]
+                        : e.currentTarget.getAttribute(attr_name);
+                    if (isNaN(v)) return;
+                    /** @type {number} */
+                    const n = to_number_func(v);
+                    if (Number.isNaN(n)) return;
+                    if (!chcker(n)) return;
+                    on_success(n);
+                };
+            };
             return m("div", [
                 m("section", [
                     m("h3", "計算モード"),
@@ -222,8 +278,14 @@
                     m("h3", "1チャンクあたりのダイヤ鉱石存在量"),
                     m("input", {
                         "type": "text",
-                        "oninput": m.withAttr("value", this.data.set_expected_dia_ore_num_per_chunk, this.data),
+                        "oninput": make_number_validiater(
+                            "value",
+                            make_float_number,
+                            () => true,
+                            this.data.set_expected_dia_ore_num_per_chunk
+                        ),
                         "value": this.data.expected_dia_ore_num_per_chunk,
+                        "pattern": /(0|\d{1,}\.\d*)/,
                         "min": 0
                     })
                 ]),
@@ -233,13 +295,17 @@
                         m("h4", "ダイヤのみの補正係数"),
                         m("input", {
                             "type": "text",
-                            "oninput": m.withAttr("value", correction_value => {
-                                if (this.pure_extra_dia_factor !== correction_value) {
+                            "oninput": make_number_validiater(
+                                "value",
+                                make_float_number,
+                                n => this.pure_extra_dia_factor !== n,
+                                correction_value => {
                                     this.pure_extra_dia_factor = correction_value;
                                     this.set_extra_dia_factor_();
                                 }
-                            }),
+                            ),
                             "value": this.pure_extra_dia_factor,
+                            "pattern": /(0|\d{1,}\.\d*)/,
                             "min": 0
                         })
                     ]),
@@ -261,14 +327,18 @@
                                 m("td", translate_ja[ore]),
                                 m("td", m("input", {
                                     "type": "text",
-                                    "oninput": m.withAttr("value", correction_value => {
-                                        if (this.other_ores_effect.get(ore).effect_factor !== correction_value) {
+                                    "oninput": make_number_validiater(
+                                        "value",
+                                        make_float_number,
+                                        n => this.other_ores_effect.get(ore).effect_factor !== n,
+                                        correction_value => {
                                             this.other_ores_effect.get(ore).effect_factor = correction_value;
                                             this.set_extra_dia_factor_();
                                         }
-                                    }),
+                                    ),
                                     "value": this.other_ores_effect.get(ore).effect_factor,
                                     "disabled": !this.other_ores_effect.get(ore).enabled,
+                                    "pattern": /(0|\d{1,}\.\d*)/,
                                     "min": 0
                                 }))
                             ])))
