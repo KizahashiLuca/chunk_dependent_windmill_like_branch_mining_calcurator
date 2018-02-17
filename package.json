@@ -10,7 +10,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "eslint": "eslint js/calculator_creator.js"
+    "eslint": "eslint js/ --cache",
+    "eslint:fix": "eslint  --fix js/ --cache"
   },
   "repository": {
     "type": "git",

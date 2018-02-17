@@ -1,5 +1,5 @@
 (function() {
-    'use strict';
+    "use strict";
 
     /*
     License: Boost Software License 1.0
@@ -8,28 +8,28 @@
     */
 
     const ore_list = Object.freeze([
-        'Iron Ore', 'Gold Ore', 'Coal Ore',
-        'Lapis Lazuli Ore', 'Redstone Ore', 'Emerald Ore'
+        "Iron Ore", "Gold Ore", "Coal Ore",
+        "Lapis Lazuli Ore", "Redstone Ore", "Emerald Ore"
     ]);
     const default_pure_extra_dia_factor = 1.98;
     const default_extra_dia_factor_by_other_ores = Object.freeze({
-        'Iron Ore': 0.08,
-        'Gold Ore': 0.01,
-        'Coal Ore': 0.09,
-        'Lapis Lazuli Ore': 0.01,
-        'Redstone Ore': 0.09,
-        'Emerald Ore': 0
+        "Iron Ore": 0.08,
+        "Gold Ore": 0.01,
+        "Coal Ore": 0.09,
+        "Lapis Lazuli Ore": 0.01,
+        "Redstone Ore": 0.09,
+        "Emerald Ore": 0
     });
     const fortune_factors = Object.freeze([1, 1.25, 1.75, 2.20]);
-    const fortune_factors_text = Object.freeze(['なし', '幸運Ⅰ', '幸運Ⅱ', '幸運Ⅲ']);
-    const calc_mode_list = Object.freeze(['n週目まで', 'n週目のみ']);
+    const fortune_factors_text = Object.freeze(["なし", "幸運Ⅰ", "幸運Ⅱ", "幸運Ⅲ"]);
+    const calc_mode_list = Object.freeze(["n週目まで", "n週目のみ"]);
     const translate_ja = Object.freeze({
-        'Iron Ore': '鉄鉱石',
-        'Gold Ore': '金鉱石',
-        'Coal Ore': '石炭鉱石',
-        'Lapis Lazuli Ore': 'ラピスラズリ鉱石',
-        'Redstone Ore': 'レッドストーン鉱石',
-        'Emerald Ore': 'エメラルド鉱石'
+        "Iron Ore": "鉄鉱石",
+        "Gold Ore": "金鉱石",
+        "Coal Ore": "石炭鉱石",
+        "Lapis Lazuli Ore": "ラピスラズリ鉱石",
+        "Redstone Ore": "レッドストーン鉱石",
+        "Emerald Ore": "エメラルド鉱石"
     });
 
     /**
@@ -61,9 +61,9 @@
      */
     const calc_dia_num = (dia_ore_n, fortune_factor) => dia_ore_n * fortune_factor;
 
-    const make_int_number = v => typeof(v) === 'number' ? v : parseInt(v);
+    const make_int_number = v => typeof(v) === "number" ? v : parseInt(v);
 
-    const make_float_number = v => typeof(v) === 'number' ? v : parseFloat(v);
+    const make_float_number = v => typeof(v) === "number" ? v : parseFloat(v);
 
     class Data {
         constructor() {
@@ -197,100 +197,100 @@
             this.data.set_extra_dia_factor(this.pure_extra_dia_factor + calc_ores_effect_sum(this.other_ores_effect));
         }
         view() {
-            return m('div', [
-                m('section', [
-                    m('h3', '計算モード'),
+            return m("div", [
+                m("section", [
+                    m("h3", "計算モード"),
                     m(
-                        'select',
-                        {'onchange': m.withAttr('selectedIndex', this.data.set_mode, this.data)},
-                        calc_mode_list.map((item, i) => m('option', {'selected': this.data.mode === i}, item))
+                        "select",
+                        {"onchange": m.withAttr("selectedIndex", this.data.set_mode, this.data)},
+                        calc_mode_list.map((item, i) => m("option", {"selected": this.data.mode === i}, item))
                     )
                 ]),
-                m('section', [
-                    m('h3', '風車型周回数'),
-                    m('input', {
-                        'type': 'number',
-                        'oninput': m.withAttr('value', this.data.set_n, this.data),
-                        'value': this.data.n,
-                        'min': 0
+                m("section", [
+                    m("h3", "風車型周回数"),
+                    m("input", {
+                        "type": "number",
+                        "oninput": m.withAttr("value", this.data.set_n, this.data),
+                        "value": this.data.n,
+                        "min": 0
                     })
                 ]),
-                m('section', [
-                    m('h3', '1チャンクあたりのダイヤ鉱石存在量'),
-                    m('input', {
-                        'type': 'text',
-                        'oninput': m.withAttr('value', this.data.set_expected_dia_ore_num_per_chunk, this.data),
-                        'value': this.data.expected_dia_ore_num_per_chunk,
-                        'min': 0
+                m("section", [
+                    m("h3", "1チャンクあたりのダイヤ鉱石存在量"),
+                    m("input", {
+                        "type": "text",
+                        "oninput": m.withAttr("value", this.data.set_expected_dia_ore_num_per_chunk, this.data),
+                        "value": this.data.expected_dia_ore_num_per_chunk,
+                        "min": 0
                     })
                 ]),
-                m('section', [
-                    m('h3', '洞窟やほか鉱石採掘中に見つかるダイヤのための補正係数'),
-                    m('section', [
-                        m('h4', 'ダイヤのみの補正係数'),
-                        m('input', {
-                            'type': 'text',
-                            'oninput': m.withAttr('value', correction_value => {
+                m("section", [
+                    m("h3", "洞窟やほか鉱石採掘中に見つかるダイヤのための補正係数"),
+                    m("section", [
+                        m("h4", "ダイヤのみの補正係数"),
+                        m("input", {
+                            "type": "text",
+                            "oninput": m.withAttr("value", correction_value => {
                                 if (this.pure_extra_dia_factor !== correction_value) {
                                     this.pure_extra_dia_factor = correction_value;
                                     this.set_extra_dia_factor_();
                                 }
                             }),
-                            'value': this.pure_extra_dia_factor,
-                            'min': 0
+                            "value": this.pure_extra_dia_factor,
+                            "min": 0
                         })
                     ]),
-                    m('section', [
-                        m('h4', 'その他の鉱石からの補正係数'),
-                        m('table', [
-                            m('thead', m('tr', [m('td', '有効/無効'), m('td', '鉱石名'), m('td', '補正値')])),
-                            m('tbody', ore_list.map(ore => m('tr', [
-                                m('td', m('label', m('input', {
-                                    'type': 'checkbox',
-                                    'onchange': m.withAttr('checked', check_state => {
+                    m("section", [
+                        m("h4", "その他の鉱石からの補正係数"),
+                        m("table", [
+                            m("thead", m("tr", [m("td", "有効/無効"), m("td", "鉱石名"), m("td", "補正値")])),
+                            m("tbody", ore_list.map(ore => m("tr", [
+                                m("td", m("label", m("input", {
+                                    "type": "checkbox",
+                                    "onchange": m.withAttr("checked", check_state => {
                                         if (this.other_ores_effect.get(ore).enabled !== check_state) {
                                             this.other_ores_effect.get(ore).enabled = check_state;
                                             this.set_extra_dia_factor_();
                                         }
                                     }),
-                                    'checked': this.other_ores_effect.get(ore).enabled
+                                    "checked": this.other_ores_effect.get(ore).enabled
                                 }))),
-                                m('td', translate_ja[ore]),
-                                m('td', m('input', {
-                                    'type': 'text',
-                                    'oninput': m.withAttr('value', correction_value => {
+                                m("td", translate_ja[ore]),
+                                m("td", m("input", {
+                                    "type": "text",
+                                    "oninput": m.withAttr("value", correction_value => {
                                         if (this.other_ores_effect.get(ore).effect_factor !== correction_value) {
                                             this.other_ores_effect.get(ore).effect_factor = correction_value;
                                             this.set_extra_dia_factor_();
                                         }
                                     }),
-                                    'value': this.other_ores_effect.get(ore).effect_factor,
-                                    'disabled': !this.other_ores_effect.get(ore).enabled,
-                                    'min': 0
+                                    "value": this.other_ores_effect.get(ore).effect_factor,
+                                    "disabled": !this.other_ores_effect.get(ore).enabled,
+                                    "min": 0
                                 }))
                             ])))
                         ])
                     ])
                 ]),
-                m('section', [
-                    m('h3', '幸運エンチャントの寄与'),
+                m("section", [
+                    m("h3", "幸運エンチャントの寄与"),
                     m(
-                        'select',
-                        {'onchange': m.withAttr('selectedIndex', i => {
+                        "select",
+                        {"onchange": m.withAttr("selectedIndex", i => {
                             this.fortune_level = i;
                             this.data.set_fortune_factor(fortune_factors[i]);
                         })},
                         fortune_factors_text.map(
-                            (text, i) => m('option', {'selected': this.fortune_level === i}, text)
+                            (text, i) => m("option", {"selected": this.fortune_level === i}, text)
                         )
                     )
                 ]),
-                m('section', [
-                    m('h3', '計算結果'),
-                    m('ul', [
-                        m('li', `採掘チャンク数: ${this.data.mined_chunk_num}`),
-                        m('li', `採掘ダイヤ鉱石数: ${this.data.dia_ore_num}`),
-                        m('li', `採掘ダイヤ数: ${this.data.dia_num}`)
+                m("section", [
+                    m("h3", "計算結果"),
+                    m("ul", [
+                        m("li", `採掘チャンク数: ${this.data.mined_chunk_num}`),
+                        m("li", `採掘ダイヤ鉱石数: ${this.data.dia_ore_num}`),
+                        m("li", `採掘ダイヤ数: ${this.data.dia_num}`)
                     ])
                 ])
             ]);
@@ -298,12 +298,12 @@
     }
 
     const main = () => {
-        m.mount(document.getElementById('calc_main'), Calculator);
+        m.mount(document.getElementById("calc_main"), Calculator);
     };
 
-    if (document.readyState !== 'loading') {
+    if (document.readyState !== "loading") {
         main();
     } else {
-        document.addEventListener('DOMContentLoaded', main);
+        document.addEventListener("DOMContentLoaded", main);
     }
 })();
