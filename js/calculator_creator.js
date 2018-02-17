@@ -208,12 +208,15 @@
                 ]),
                 m("section", [
                     m("h3", "風車型周回数"),
-                    m("input", {
-                        "type": "number",
-                        "oninput": m.withAttr("value", this.data.set_n, this.data),
-                        "value": this.data.n,
-                        "min": 0
-                    })
+                    m("div", [
+                        m("input", {
+                            "type": "number",
+                            "oninput": m.withAttr("value", this.data.set_n, this.data),
+                            "value": this.data.n,
+                            "min": 0
+                        }),
+                        m("a", "周")
+                    ])
                 ]),
                 m("section", [
                     m("h3", "1チャンクあたりのダイヤ鉱石存在量"),
