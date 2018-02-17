@@ -285,7 +285,7 @@
                             this.data.set_expected_dia_ore_num_per_chunk
                         ),
                         "value": this.data.expected_dia_ore_num_per_chunk,
-                        "pattern": /(0|\d{1,}\.\d*)/,
+                        "pattern": "(0|\\d{1,}\\.\\d*)",
                         "min": 0
                     })
                 ]),
@@ -305,7 +305,7 @@
                                 }
                             ),
                             "value": this.pure_extra_dia_factor,
-                            "pattern": /(0|\d{1,}\.\d*)/,
+                            "pattern": "(0|\\d{1,}\\.\\d*)",
                             "min": 0
                         })
                     ]),
@@ -338,7 +338,7 @@
                                     ),
                                     "value": this.other_ores_effect.get(ore).effect_factor,
                                     "disabled": !this.other_ores_effect.get(ore).enabled,
-                                    "pattern": /(0|\d{1,}\.\d*)/,
+                                    "pattern": "(0|\\d{1,}\\.\\d*)",
                                     "min": 0
                                 }))
                             ])))
