@@ -78,7 +78,7 @@
             this.extra_dia_factor = default_pure_extra_dia_factor;
             /**
              * 0ならn週目までに、1ならn週目について計算を行う
-             * @type{number}
+             * @type {number}
              */
             this.mode = 0;
         }
@@ -162,7 +162,7 @@
          */
         constructor(ore) {
             this.enabled = false;
-            /** @type{number} */
+            /** @type {number} */
             this.effect_factor = default_extra_dia_factor_by_other_ores[ore];
         }
     }
@@ -187,7 +187,7 @@
             this.data = new Data();
             this.pure_extra_dia_factor = default_pure_extra_dia_factor;
             this.fortune_level = 0;
-            /** @type{Map<string, OreEffect>} */
+            /** @type {Map<string, OreEffect>} */
             this.other_ores_effect = new Map();
             ore_list.map(ore => {
                 this.other_ores_effect.set(ore, new OreEffect(ore));
