@@ -280,12 +280,11 @@
                         "oninput": make_number_validiater(
                             "value",
                             make_float_number,
-                            () => true,
+                            n => 0 <= n,
                             this.data.set_expected_dia_ore_num_per_chunk
                         ),
                         "value": this.data.expected_dia_ore_num_per_chunk,
-                        "pattern": /(0|\d{1,}\.\d*)/.source,
-                        "min": 0
+                        "pattern": /(0|\d{1,}\.\d*)/.source
                     })
                 ]),
                 m("section", [
@@ -297,15 +296,14 @@
                             "oninput": make_number_validiater(
                                 "value",
                                 make_float_number,
-                                n => this.pure_extra_dia_factor !== n,
+                                n => 0 <= n && this.pure_extra_dia_factor !== n,
                                 correction_value => {
                                     this.pure_extra_dia_factor = correction_value;
                                     this.set_extra_dia_factor_();
                                 }
                             ),
                             "value": this.pure_extra_dia_factor,
-                            "pattern": /(0|\d{1,}\.\d*)/.source,
-                            "min": 0
+                            "pattern": /(0|\d{1,}\.\d*)/.source
                         })
                     ]),
                     m("section", [
@@ -329,7 +327,7 @@
                                     "oninput": make_number_validiater(
                                         "value",
                                         make_float_number,
-                                        n => this.other_ores_effect.get(ore).effect_factor !== n,
+                                        n => 0 <= n && this.other_ores_effect.get(ore).effect_factor !== n,
                                         correction_value => {
                                             this.other_ores_effect.get(ore).effect_factor = correction_value;
                                             this.set_extra_dia_factor_();
@@ -337,8 +335,7 @@
                                     ),
                                     "value": this.other_ores_effect.get(ore).effect_factor,
                                     "disabled": !this.other_ores_effect.get(ore).enabled,
-                                    "pattern": /(0|\d{1,}\.\d*)/.source,
-                                    "min": 0
+                                    "pattern": /(0|\d{1,}\.\d*)/.source
                                 }))
                             ])))
                         ])
