@@ -20,6 +20,7 @@
         }
       ],
       "quote-props": ["error", "always"],
+      "no-useless-escape":"error",
       "closure/indent": ["error", 4],
       "closure/camelcase": "off"
     }
