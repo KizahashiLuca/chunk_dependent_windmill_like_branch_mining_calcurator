@@ -43,7 +43,7 @@
      * @param {number} n n
      * @return {number}
      */
-    const calc_mined_chunk_num_at_n = n => 2 * n + 1;
+    const calc_mined_chunk_num_at_n = n => (1 === n) ? 1 : (2 * n + 1) / 4;
     /**
      * xチャンク採掘した時に採掘されたダイヤ鉱石数を求める
      * @param {number} chunk 採掘したチャンク数
